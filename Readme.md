@@ -1,7 +1,7 @@
 # Личный проект «Дела в Порядке»
 
 * Студент: [Дмитрий Лавринович](https://up.htmlacademy.ru/php/12/user/488389).
-* Наставник: [Дмитрий Лавринович](https://htmlacademy.ru/profile/id1441047).
+* Наставник: [Алексей Новиков](https://htmlacademy.ru/profile/id42641).
 
 ---
 
