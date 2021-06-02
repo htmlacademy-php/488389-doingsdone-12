@@ -6,13 +6,13 @@ $projects = ['Входящие', 'Учеба', 'Работа', 'Домашние
 $tasks = [
     [
         'name' => 'Собеседование в IT компании',
-        'date' => '01.12.2019',
+        'date' => '02.06.2021',
         'category' => 'Работа',
         'completed' => false
     ],
     [
         'name' => 'Выполнить тестовое задание',
-        'date' => '25.12.2019',
+        'date' => '03.06.2021',
         'category' => 'Работа',
         'completed' => false
     ],
@@ -24,7 +24,7 @@ $tasks = [
     ],
     [
         'name' => 'Встреча с другом',
-        'date' => '22.12.2019',
+        'date' => '04.06.2021',
         'category' => 'Входящие',
         'completed' => false
     ],
@@ -52,6 +52,19 @@ function calculate_tasks ($project, $tasks) {
     }
 
     return $counter_task;
+};
+
+function define_deadline_task ($date) {
+    $day_in_seconds = 86400;
+    $analyzed_date = strtotime($date);
+    $current_date = strtotime(date("d.m.Y G:i"));
+    $flag = false;
+
+    if ($day_in_seconds >= $analyzed_date - $current_date) {
+        $flag = true;
+    }
+
+    return $flag;
 };
 
 $page_content = include_template('main.php', ['projects' => $projects, 'tasks' => $tasks, 'show_complete_tasks' => $show_complete_tasks]);
