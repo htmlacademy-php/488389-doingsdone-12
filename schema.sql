@@ -1,8 +1,8 @@
-CREATE DATABASE doingsdon
+CREATE DATABASE doingsdone
 DEFAULT CHARACTER SET utf8
 DEFAULT COLLATE utf8_general_ci;
 
-USE doingsdon;
+USE doingsdone;
 
 CREATE TABLE users (
 	id INT AUTO_INCREMENT PRIMARY KEY,
@@ -24,7 +24,7 @@ CREATE TABLE tasks (
 	projec_id INT NOT NULL,
 	status TINYINT NOT NULL,
 	dt_create TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	task_name CHAR NOT NULL,
+	task_name CHAR(255) NOT NULL,
 	file_link CHAR,
 	dt_deadline DATE,
 	user_id INT NOT NULL
