@@ -10,9 +10,11 @@
                             main-navigation__list-item--active
                         <?php endif; ?>
                         ">
-                            <a class="main-navigation__list-item-link" href="?project_id=<?=$project['id']?>"><?=htmlspecialchars($project['name']);?></a>
+                            <a class="main-navigation__list-item-link" href="
+                                ?project_id=<?=$project['id']?>"><?=htmlspecialchars($project['name']);?>
+                            </a>
                             <span class="main-navigation__list-item-count">
-                                <?=calculate_tasks($project['name'], $tasks_for_calculate);?>
+                                <?=calculate_tasks($project['name'], $tasks);?>
                             </span>
                         </li>
                         <?php endforeach; ?>
@@ -52,22 +54,26 @@
                         <?php if (!$show_complete_tasks && $task['status']): ?>
                             <?php continue; ?>
                         <?php else: ?>
-                        <tr class="tasks__item task 
-                        <?php if ($task['status']): ?>
-                            task--completed
-                        <?php endif;?> 
-                        <?php if ($task['dt_deadline'] and define_deadline_task($task['dt_deadline'])): ?>
-                            task--important
-                        <?php endif;?>">
-                            <td class="task__select">
-                                <label class="checkbox task__checkbox">
-                                    <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
-                                    <span class="checkbox__text"><?=htmlspecialchars($task['task_name']);?></span>
-                                </label>
-                            </td>
-                            <td class="task__date"><?=htmlspecialchars($task['dt_deadline']);?></td>
-                            <td class="task__controls"><?=htmlspecialchars($task['name']);?></td>
-                        </tr>
+                            <?php if (isset($_GET['project_id']) && $_GET['project_id'] != $task['id']): ?>
+                                <?php continue; ?>
+                            <?php else: ?>
+                            <tr class="tasks__item task 
+                            <?php if ($task['status']): ?>
+                                task--completed
+                            <?php endif;?> 
+                            <?php if ($task['dt_deadline'] and define_deadline_task($task['dt_deadline'])): ?>
+                                task--important
+                            <?php endif;?>">
+                                <td class="task__select">
+                                    <label class="checkbox task__checkbox">
+                                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
+                                        <span class="checkbox__text"><?=htmlspecialchars($task['task_name']);?></span>
+                                    </label>
+                                </td>
+                                <td class="task__date"><?=htmlspecialchars($task['dt_deadline']);?></td>
+                                <td class="task__controls"><?=htmlspecialchars($task['name']);?></td>
+                            </tr>
+                            <?php endif;?>
                         <?php endif;?>
                     <?php endforeach; ?>
                 </table>
