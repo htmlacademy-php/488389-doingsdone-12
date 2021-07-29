@@ -142,3 +142,48 @@ function include_template($name, array $data = []) {
 
     return $result; // возвращение  html кода с переданными данными
 }
+
+/**
+* считает количество задачь по каждому из проектов, используется в main-navigation.php
+*/
+
+function calculate_tasks ($project, $tasks) {
+    $counter_task = 0;
+
+    foreach ($tasks as $task) {
+        if ($task['name'] == $project) {
+            $counter_task++;
+        }
+    }
+
+    return $counter_task;
+};
+
+/**
+* возвращает true, если до истечения deadline по задаче остается меньше 24 часов
+*/
+
+function define_deadline_task ($date) {
+    $day_in_seconds = 86400;
+    $analyzed_date = strtotime($date);
+    $current_date = strtotime(date("Y-m-d G:i"));
+    $flag = false;
+
+    if ($day_in_seconds >= $analyzed_date - $current_date) {
+        $flag = true;
+    }
+
+    return $flag;
+};
+
+function define_correctness_date ($date) {
+    $analyzed_date = strtotime($date);
+    $current_date = strtotime(date("Y-m-d"));
+    $flag = false;
+
+    if (0 <= $analyzed_date -  $current_date) {
+        $flag = true;
+    }
+
+    return $flag;
+};
