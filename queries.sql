@@ -1,8 +1,8 @@
 USE doingsdone;
 
 -- добавляем двух пользователей
-INSERT INTO users SET name = 'Константин', login = 'kstn', password = 'kstn123', email = 'kstn@kstn.ru';
-INSERT INTO users SET name = 'Дмитрий', login = 'dmlvr', password = 'dmlvr2121', email = 'lvr@dmlvr.ru';
+INSERT INTO users SET name = 'Константин', password = 'kstn123', email = 'kstn@kstn.ru';
+INSERT INTO users SET name = 'Дмитрий', password = 'dmlvr2121', email = 'lvr@dmlvr.ru';
 
 -- добавляем существующие проекты
 INSERT INTO projects SET name = 'Входящие', user_id = 1;
