@@ -20,14 +20,18 @@
             </a>
 
             <div class="main-header__side">
+            <?php if(isset($_SESSION)):?>
                 <a class="main-header__side-item button button--plus open-modal" href="pages/form-task.html">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
                         <p><?php print($user_name);?></p>
-                        <a href="#">Выйти</a>
+                        <a href="logout.php">Выйти</a>
                     </div>
                 </div>
+            <?php else:?>
+                <a class="main-header__side-item button button--transparent" href="auth.php">Войти</a>
+            <?php endif;?>
             </div>
         </header>
 
@@ -42,9 +46,9 @@
 
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
-
+        <?php if(isset($_SESSION)):?>
         <a class="main-footer__button button button--plus" href="add.php">Добавить задачу</a>
-
+        <?php endif;?>
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
             <a class="social__link social__link--facebook" href="#">

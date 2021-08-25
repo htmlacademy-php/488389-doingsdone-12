@@ -52,7 +52,7 @@ if (isset($_POST['send'])) {
 
 $page_content = include_template('register.php', ['form_errors' => $form_errors]);
 
-$layout_content = include_template('layout.php', ['page_content' => $page_content, 'title' => 'Дела в порядке', 'user_name' => $user_name]);
+$layout_content = include_template('layout.php', ['page_content' => $page_content, 'title' => 'Дела в порядке']);
 
 print($layout_content);
 
