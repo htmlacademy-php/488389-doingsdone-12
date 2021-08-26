@@ -187,3 +187,11 @@ function define_correctness_date ($date) {
 
     return $flag;
 };
+
+function record_cookie ($cookie_name, $cookie_value) {
+    
+    $cookie_expire = strtotime('+1 MONTH', strtotime(date("Y-m-d G:i")));
+    $cookie_path = "/";
+
+    setcookie($cookie_name, $cookie_value, $cookie_expire, $cookie_path);
+}

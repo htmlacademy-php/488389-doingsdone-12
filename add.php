@@ -1,5 +1,6 @@
 <?php
 require_once('helpers.php');
+require_once('session.php');
 require_once('mysqli_connect.php');
 
 $form_errors = [];
