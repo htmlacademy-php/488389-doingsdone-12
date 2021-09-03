@@ -31,8 +31,7 @@ if (isset($_POST['send'])) {
 		$check_pass = mysqli_fetch_assoc($result_request_check_pass);
 		$check_pass = $check_pass['password'];
 
-		if (password_verify($auth_pass, $check_pass)) {
-		} else {
+		if (!password_verify($auth_pass, $check_pass)) {
 			$form_errors['pass'] = 'Пароль не верный';
 		}
 	}
