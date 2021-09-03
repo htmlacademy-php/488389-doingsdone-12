@@ -8,7 +8,7 @@ require_once('mysqli_connect.php');
 if (isset($_SESSION)) {
 	$show_complete_tasks = 1;
 
-	$main_navigation = include_template('main-navigation.php', ['projects' => $projects, 'tasks' => $tasks]);
+	$main_navigation = include_template('main-navigation.php', ['projects' => $projects, 'tasks' => $tasks, 'count_tasks' => $count_tasks]);
 
 	$page_content = include_template('main.php', ['main_navigation' => $main_navigation, 'projects' => $projects, 'tasks' => $tasks, 'show_complete_tasks' => $show_complete_tasks]);
 

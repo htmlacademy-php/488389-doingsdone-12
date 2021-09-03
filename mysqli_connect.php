@@ -23,14 +23,33 @@ if (isset($_SESSION['user_id'])) {
 	$projects = mysqli_fetch_all($result_request_projects, MYSQLI_ASSOC);
 
 	// Получаю список задач
+	if (isset($_GET['task_search'])) {
+			$task_search = $_GET['task_search'];
+			$sql_request_tasks = "SELECT task_name, dt_deadline, status, p.name, p.id FROM tasks t
+			JOIN projects p
+			ON t.projec_id = p.id
+			WHERE MATCH(task_name) AGAINST(".'"'.$task_search.'"'.")
+			AND t.user_id = ".$user_id;
+			$result_request_tasks = mysqli_query($connection_resource, $sql_request_tasks);
+			$tasks = mysqli_fetch_all($result_request_tasks, MYSQLI_ASSOC);
+	} else {
+			$sql_request_tasks = "SELECT task_name, dt_deadline, status, p.name, p.id FROM tasks t
+			JOIN projects p
+			ON t.projec_id = p.id
+			WHERE t.user_id = ".$user_id;
+			$result_request_tasks = mysqli_query($connection_resource, $sql_request_tasks);
+			$tasks = mysqli_fetch_all($result_request_tasks, MYSQLI_ASSOC);
+	}
 
-	$sql_request_tasks = "SELECT task_name, dt_deadline, status, p.name, p.id FROM tasks t
-	JOIN projects p
-	ON t.projec_id = p.id
-	WHERE t.user_id = ".$user_id;
-	$result_request_tasks = mysqli_query($connection_resource, $sql_request_tasks);
-	$tasks = mysqli_fetch_all($result_request_tasks, MYSQLI_ASSOC);
 
+	//Получаю количество проектов по каждой из задач
+	$count_tasks;
+	foreach ($projects as $project) {
+		$sql_request_count_t = "SELECT COUNT(*) FROM tasks WHERE projec_id = '".$project['id']."' AND user_id = '".$user_id."';";
+		$result_request_count_t = mysqli_query($connection_resource, $sql_request_count_t);
+		$count_task = mysqli_fetch_all($result_request_count_t, MYSQLI_ASSOC);
+		$count_tasks[$project['id']] = $count_task[0]['COUNT(*)'];
+	};
 }
 
 ?>

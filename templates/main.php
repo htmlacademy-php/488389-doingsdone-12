@@ -5,10 +5,12 @@
             <main class="content__main">
                 <h2 class="content__main-heading">Список задач</h2>
 
-                <form class="search-form" action="index.php" method="post" autocomplete="off">
-                    <input class="search-form__input" type="text" name="" value="" placeholder="Поиск по задачам">
-
-                    <input class="search-form__submit" type="submit" name="" value="Искать">
+                <form class="search-form" action="index.php" method="get" autocomplete="off">
+                    <input class="search-form__input" type="text" name="task_search" placeholder="Поиск по задачам"
+                    <?php if (isset($_GET['task_search'])):?>
+                        value="<?php print($_GET['task_search']); ?>"
+                    <?php endif;?>>
+                    <input class="search-form__submit" type="submit">
                 </form>
 
                 <div class="tasks-controls">
@@ -25,7 +27,7 @@
                         <span class="checkbox__text">Показывать выполненные</span>
                     </label>
                 </div>
-
+                <?php if (count($tasks) != 0): ?>
                 <table class="tasks">
                     <?php foreach ($tasks as $task): ?>
                         <?php if (!$show_complete_tasks && $task['status']): ?>
@@ -54,5 +56,8 @@
                         <?php endif;?>
                     <?php endforeach; ?>
                 </table>
+                <?php else: ?>
+                <p>Ничего не найдено по Вашему запросу</p>
+                <?php endif;?>
             </main>
         </div>

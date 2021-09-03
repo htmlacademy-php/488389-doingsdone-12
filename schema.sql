@@ -28,3 +28,5 @@ CREATE TABLE tasks (
 	dt_deadline DATE,
 	user_id INT NOT NULL
 );
+
+CREATE FULLTEXT INDEX task_name_search ON tasks(task_name);

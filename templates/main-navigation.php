@@ -13,7 +13,7 @@
                     ?project_id=<?=$project['id']?>"><?=htmlspecialchars($project['name']);?>
                 </a>
                 <span class="main-navigation__list-item-count">
-                    <?=calculate_tasks($project['name'], $tasks);?>
+                    <?=$count_tasks[$project['id']]?>
                 </span>
             </li>
             <?php endforeach; ?>
