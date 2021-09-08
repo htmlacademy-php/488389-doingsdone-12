@@ -10,9 +10,11 @@ if (isset($_POST['send'])) {
 	$task_date = $_POST['date'];
 	$task_id_project = $_POST['project'];
 	$task_status = 0;
-	$file_link;
+	$file_link = NULL;
 
-	if (isset($_FILES['file'])) {
+	// print_r($_FILES['file']['size']);
+
+	if (isset($_FILES['file']) && $_FILES['file']['size'] != 0) {
 	    $file_name = $_FILES['file']['name'];
 	    $file_ext = pathinfo($file_name);
 	    $current_date =date("Y-m-d-G-i-s");
@@ -51,14 +53,14 @@ if (isset($_POST['send'])) {
 
 			if (!$result_request_add_task) { 
 				$error = mysqli_error($connection_resource); 
-				print($error);
+				//print($error);
 			} else {
 				header("Location: http://doingsdone");
 			}
 	}
 }
 
-$main_navigation = include_template('main-navigation.php', ['projects' => $projects, 'tasks' => $tasks]);
+$main_navigation = include_template('main-navigation.php', ['projects' => $projects, 'tasks' => $tasks, 'count_tasks' => $count_tasks]);
 
 $page_content = include_template('form-task.php', ['main_navigation' => $main_navigation, 'projects' => $projects, 'form_errors' => $form_errors]);
 

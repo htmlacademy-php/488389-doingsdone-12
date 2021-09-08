@@ -195,3 +195,30 @@ function record_cookie ($cookie_name, $cookie_value) {
 
     setcookie($cookie_name, $cookie_value, $cookie_expire, $cookie_path);
 }
+
+function sorting_by_date ($date, $filter) {
+    $flag = false;
+    $analyzed_date = strtotime($date);
+    $current_date = strtotime(date("Y-m-d"));
+
+    if ($filter == 'all') {
+        $flag = true;
+    } else if ($filter == 'today') {
+        if ($analyzed_date == $current_date) {
+            $flag = true;
+        }
+    } else if ($filter == 'tomorrow') {
+        $current_date = strtotime('+1 DAY', strtotime(date("Y-m-d")));
+        if ($analyzed_date == $current_date) {
+            $flag = true;
+        }        
+    } else if ($filter == 'overdue') {
+        if ($analyzed_date < $current_date) {
+            $flag = true;
+        }
+    } else {
+        $flag = false;
+    }
+
+    return $flag;
+}

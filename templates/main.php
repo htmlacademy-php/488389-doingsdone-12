@@ -15,10 +15,14 @@
 
                 <div class="tasks-controls">
                     <nav class="tasks-switch">
-                        <a href="/" class="tasks-switch__item tasks-switch__item--active">Все задачи</a>
-                        <a href="/" class="tasks-switch__item">Повестка дня</a>
-                        <a href="/" class="tasks-switch__item">Завтра</a>
-                        <a href="/" class="tasks-switch__item">Просроченные</a>
+                        <a href="?sorting_date=all" class="tasks-switch__item 
+                        <?php if ($_GET['sorting_date'] == 'all'):?>tasks-switch__item--active<?php endif;?>">Все задачи</a>
+                        <a href="?sorting_date=today" class="tasks-switch__item 
+                        <?php if ($_GET['sorting_date'] == 'today'):?>tasks-switch__item--active<?php endif;?>">Повестка дня</a>
+                        <a href="?sorting_date=tomorrow" class="tasks-switch__item 
+                        <?php if ($_GET['sorting_date'] == 'tomorrow'):?>tasks-switch__item--active<?php endif;?>">Завтра</a>
+                        <a href="?sorting_date=overdue" class="tasks-switch__item 
+                        <?php if ($_GET['sorting_date'] == 'overdue'):?>tasks-switch__item--active<?php endif;?>">Просроченные</a>
                     </nav>
 
                     <label class="checkbox">
@@ -33,7 +37,10 @@
                         <?php if (!$show_complete_tasks && $task['status']): ?>
                             <?php continue; ?>
                         <?php else: ?>
-                            <?php if (isset($_GET['project_id']) && $_GET['project_id'] != $task['id']): ?>
+                            <?php if (isset($_GET['project_id']) && $_GET['project_id'] != $task['projec_id']): ?>
+                                <?php continue; ?>
+                            <?php else: ?>
+                            <?php if (isset($_GET['sorting_date']) && !sorting_by_date ($task['dt_deadline'], $_GET['sorting_date'])): ?>
                                 <?php continue; ?>
                             <?php else: ?>
                             <tr class="tasks__item task 
@@ -45,7 +52,10 @@
                             <?php endif;?>">
                                 <td class="task__select">
                                     <label class="checkbox task__checkbox">
-                                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
+                                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" 
+                                        value="<?=($task['id']);?>" 
+                                        <?php if ($task['status']):?>checked <?php endif;?>
+                                        name="task_completed">
                                         <span class="checkbox__text"><?=htmlspecialchars($task['task_name']);?></span>
                                     </label>
                                 </td>
@@ -53,6 +63,7 @@
                                 <td class="task__controls"><?=htmlspecialchars($task['name']);?></td>
                             </tr>
                             <?php endif;?>
+                        <?php endif;?>
                         <?php endif;?>
                     <?php endforeach; ?>
                 </table>
