@@ -6,7 +6,11 @@ require_once('mysqli_connect.php');
 // показывать или нет выполненные задачи
 
 if (isset($_SESSION)) {
+
 	$show_complete_tasks = 1;
+	if (isset($_GET['show_completed'])) {
+		$show_complete_tasks = $_GET['show_completed'];
+	}
 
 	$main_navigation = include_template('main-navigation.php', ['projects' => $projects, 'tasks' => $tasks, 'count_tasks' => $count_tasks]);
 

@@ -22,10 +22,21 @@ if (isset($_SESSION['user_id'])) {
 	$result_request_projects = mysqli_query($connection_resource, $sql_request_projects);
 	$projects = mysqli_fetch_all($result_request_projects, MYSQLI_ASSOC);
 
+	// Пометка проектов как выполненных
+	if (isset($_GET['check'])) {
+		$sql_request_task_status = "SELECT status FROM tasks WHERE id = ".$_GET['task_id'];
+
+		$sql_request_task_check = "UPDATE tasks 
+		SET status = ".'"'.$_GET['check'].'"'."
+		WHERE id = ".'"'.$_GET['task_id'].'"';
+		$sql_result = mysqli_query($connection_resource, $sql_request_task_check);
+	}
+
 	// Получаю список задач
 	if (isset($_GET['task_search'])) {
 			$task_search = $_GET['task_search'];
-			$sql_request_tasks = "SELECT task_name, dt_deadline, status, p.name, p.id FROM tasks t
+			$sql_request_tasks = "SELECT task_name, dt_deadline, status, projec_id, t.id, p.name 
+			FROM tasks t
 			JOIN projects p
 			ON t.projec_id = p.id
 			WHERE MATCH(task_name) AGAINST(".'"'.$task_search.'"'.")
@@ -33,7 +44,8 @@ if (isset($_SESSION['user_id'])) {
 			$result_request_tasks = mysqli_query($connection_resource, $sql_request_tasks);
 			$tasks = mysqli_fetch_all($result_request_tasks, MYSQLI_ASSOC);
 	} else {
-			$sql_request_tasks = "SELECT task_name, dt_deadline, status, p.name, p.id FROM tasks t
+			$sql_request_tasks = "SELECT task_name, dt_deadline, status, projec_id, t.id, p.name 
+			FROM tasks t
 			JOIN projects p
 			ON t.projec_id = p.id
 			WHERE t.user_id = ".$user_id;
