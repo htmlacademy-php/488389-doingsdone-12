@@ -12,10 +12,12 @@ if (isset($_SESSION['user_id'])) {
 	$user_id = $_SESSION['user_id'];  // если этот параметр поменять на двойку, то подгрузится вся инфа для второго пользователя из БД
 
 	// Получаю имя Юзера
-	$sql_request_user = "SELECT name FROM users WHERE id = ".$user_id;
+	$sql_request_user = "SELECT name, email FROM users WHERE id = ".$user_id;
 	$result_request_user = mysqli_query($connection_resource, $sql_request_user);
-	$user_name = mysqli_fetch_assoc($result_request_user);
-	$user_name = $user_name['name'];
+	$user = mysqli_fetch_assoc($result_request_user);
+	$user_name = $user['name'];
+	$user_email = $user['email'];
+
 
 	// получаю список проектов
 	$sql_request_projects = "SELECT name, id FROM projects WHERE user_id = ".$user_id;
