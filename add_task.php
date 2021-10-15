@@ -12,8 +12,6 @@ if (isset($_POST['send'])) {
 	$task_status = 0;
 	$file_link = NULL;
 
-	// print_r($_FILES['file']['size']);
-
 	if (isset($_FILES['file']) && $_FILES['file']['size'] != 0) {
 	    $file_name = $_FILES['file']['name'];
 	    $file_ext = pathinfo($file_name);
@@ -46,17 +44,20 @@ if (isset($_POST['send'])) {
 		$form_errors['task_date'] = 'Дата должна быть больше или равна текущей';
 	}
 
-	if (count($form_errors) > 0) {
-	} else {
-		$sql_request_add_task = "INSERT INTO tasks (task_name, projec_id, user_id, status, dt_deadline, file_link) VALUES ('" . $task_name . "', '" . $task_id_project . "', '" . $user_id . "', '" . $task_status . "', '" . $task_date . "', '" . $file_link . "')";
+	if (!count($form_errors) > 0) {
+		if ($task_date == '') {
+			$sql_request_add_task = "INSERT INTO tasks (task_name, projec_id, user_id, status, file_link) VALUES ('" . $task_name . "', '" . $task_id_project . "', '" . $user_id . "', '" . $task_status . "', '" . $file_link . "')";
+		} else {
+			$sql_request_add_task = "INSERT INTO tasks (task_name, projec_id, user_id, status, dt_deadline, file_link) VALUES ('" . $task_name . "', '" . $task_id_project . "', '" . $user_id . "', '" . $task_status . "', '" . $task_date . "', '" . $file_link . "')";
+		}
+		
 		$result_request_add_task = mysqli_query($connection_resource, $sql_request_add_task);
 
-			if (!$result_request_add_task) { 
-				$error = mysqli_error($connection_resource); 
-				//print($error);
-			} else {
-				header("Location: http://doingsdone");
-			}
+		if (!$result_request_add_task) { 
+			$error = mysqli_error($connection_resource);
+		} else {
+			header("Location: http://doingsdone");
+		}
 	}
 }
 
