@@ -1,0 +1,17 @@
+{
+    "name": "dmlvr/doingsdone",
+    "autoload": {
+        "psr-4": {
+            "Dmlvr\\Doingsdone\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "dmlvr",
+            "email": "lvr@dmlvr.ru"
+        }
+    ],
+    "require": {
+        "swiftmailer/swiftmailer": "^6.2"
+    }
+}

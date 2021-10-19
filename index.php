@@ -3,8 +3,6 @@ require_once('helpers.php');
 require_once('session.php');
 require_once('mysqli_connect.php');
 
-// показывать или нет выполненные задачи
-
 if (isset($_SESSION)) {
 
 	$show_complete_tasks = 1;
