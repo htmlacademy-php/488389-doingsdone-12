@@ -14,10 +14,12 @@ $users_id = [];
 
 $sql_request_tasks = "SELECT task_name, user_id 
 	FROM tasks
-	WHERE dt_deadline = "."'".$current_date."'";
+	WHERE status = 0
+	AND dt_deadline = "."'".$current_date."'";
+
 
 $result_request_tasks = mysqli_query($connection_resource, $sql_request_tasks);
-$tasks = mysqli_fetch_all($result_request_tasks, MYSQLI_ASSOC); 
+$tasks = mysqli_fetch_all($result_request_tasks, MYSQLI_ASSOC);
 
 //Настройки почтового ящика
 $transport = (new Swift_SmtpTransport('smtp.beget.com', 25))
@@ -35,7 +37,7 @@ foreach ($users_id as $user_id) {
 	$mailBody = '';
 	foreach($tasks as $task) {
 		if($task['user_id'] == $user_id) {
-			$mailBody = $mailBody . $task['task_name'] . ', ';
+			$mailBody .= $task['task_name'] . ', ';
 		}
 	}
 
@@ -43,8 +45,7 @@ foreach ($users_id as $user_id) {
 	FROM users
 	WHERE id = ".$user_id;
 	$result_request_user = mysqli_query($connection_resource, $sql_request_user);
-	$user = mysqli_fetch_all($result_request_user, MYSQLI_ASSOC);
-	$user = $user[0];
+	$user = mysqli_fetch_array($result_request_user, MYSQLI_ASSOC);
 	$user_name = $user['name'];
 	$user_email = $user['email'];
 
