@@ -1,8 +1,6 @@
 <?php
-require_once('helpers.php');
-
-record_cookie('user_id', '');
-session_start();
+require_once('session.php');
 $_SESSION = [];
-header("Location: http://doingsdone");
+$url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
+header("Location: ".$url);
 ?>

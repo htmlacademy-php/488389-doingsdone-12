@@ -1,5 +1,6 @@
 <?php
 require_once('helpers.php');
+require_once('session.php');
 require_once('mysqli_connect.php');
 
 $form_errors = [];
@@ -19,6 +20,8 @@ if (isset($_POST['send'])) {
 
 	if ($reg_email === '') {
 		$form_errors['email'] = 'Поле не заполнено';
+	}	else if (iconv_strlen($reg_email) > 128) {
+		$form_errors['email'] = 'Длинна поля «email» превышает максимально допустимую (128 символов)';
 	} else if ($check_email) {
 		$form_errors['email'] = 'Указанный email уже используется';
 	}  else if (!$filter_email) {
@@ -27,12 +30,16 @@ if (isset($_POST['send'])) {
 
 	if ($reg_pass === '') {
 		$form_errors['password'] = 'Поле не заполнено';
+	} else if (iconv_strlen($reg_pass) > 255) {
+		$form_errors['password'] = 'Длинна поля «Пароль» превышает максимально допустимую (255 символов)';
 	} else {
 		$reg_pass = password_hash($reg_pass, PASSWORD_DEFAULT);
 	}
 
 	if ($reg_name === '') {
 		$form_errors['name'] = 'Поле не заполнено';
+	} else if (iconv_strlen($reg_name) > 64) {
+		$form_errors['name'] = 'Длинна поля «Имя» превышает максимально допустимую (64 символа)';
 	}
 
 	if (!count($form_errors) > 0) {
@@ -44,16 +51,18 @@ if (isset($_POST['send'])) {
 			$error = mysqli_error($connection_resource); 
 			print($error);
 		} else {
-			header("Location: http://doingsdone");
+			$url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
+			header("Location: ".$url);
 		}
 	}
 
 }
 
-$page_content = include_template('register.php', ['form_errors' => $form_errors]);
-
-$layout_content = include_template('layout.php', ['page_content' => $page_content, 'title' => 'Дела в порядке']);
-
-print($layout_content);
-
-?>
+if (isset($_SESSION['user_id'])) {
+	$url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
+	header("Location: ".$url);
+} else {
+	$page_content = include_template('register.php', ['form_errors' => $form_errors]);
+	$layout_content = include_template('layout.php', ['page_content' => $page_content, 'title' => 'Дела в порядке']);
+	print($layout_content);
+}

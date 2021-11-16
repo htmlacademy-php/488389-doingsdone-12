@@ -8,7 +8,7 @@
     <form class="form" method="post" autocomplete="off" enctype="multipart/form-data">
       <div class="form__row">
         <label class="form__label" for="name">Название <sup>*</sup></label>
-        <input class="form__input<?php if (isset($form_errors['task_name'])): ?> form__input--error<?php endif;?>" type="text" name="name" id="name" value="" placeholder="Введите название">
+        <input class="form__input<?php if (isset($form_errors['task_name'])): ?> form__input--error<?php endif;?>" type="text" name="name" id="name" value="<?php if(isset($task)): ?><?php print($task['name']); ?><?php endif;?>" placeholder="Введите название">
         <?php if (isset($form_errors['task_name'])): ?>
           <p class="form__message"><?php print($form_errors['task_name']); ?></p>
         <?php endif;?>
@@ -19,7 +19,7 @@
 
         <select class="form__input form__input--select <?php if (isset($form_errors['task_id_project'])): ?>form__input--error<?php endif;?>" name="project" id="project">
           <?php foreach ($projects as $project): ?>
-          <option value="<?=$project['id']?>"><?=$project['name']?></option>
+          <option <?php if (isset($task) and $task['id_project'] == $project['id']):?>selected="selected"<?php endif;?> value="<?=$project['id']?>"><?=$project['name']?></option>
           <?php endforeach; ?>
         </select>
         <?php if (isset($form_errors['task_id_project'])): ?>
@@ -30,7 +30,7 @@
       <div class="form__row">
         <label class="form__label" for="date">Дата выполнения</label>
 
-        <input class="form__input form__input--date <?php if (isset($form_errors['task_date'])): ?>form__input--error<?php endif;?>" type="text" name="date" id="date" value="" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
+        <input class="form__input form__input--date <?php if (isset($form_errors['task_date'])): ?>form__input--error<?php endif;?>" type="text" name="date" id="date" value="<?php if(isset($task)): ?><?=$task['date']?><?php endif ?>" placeholder="Введите дату в формате ГГГГ-ММ-ДД">
         <?php if (isset($form_errors['task_date'])): ?>
         <p class="form__message"><?php print($form_errors['task_date']); ?></p>
         <?php endif;?>
