@@ -3,7 +3,7 @@ require_once('helpers.php');
 require_once('session.php');
 require_once('mysqli_connect.php');
 
-if (isset($_SESSION)) {
+if (isset($_SESSION['user_id'])) {
 
 	$show_complete_tasks = 1;
 	if (isset($_GET['show_completed'])) {

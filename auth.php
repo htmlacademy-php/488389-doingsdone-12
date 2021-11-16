@@ -42,17 +42,25 @@ if (isset($_POST['send'])) {
 		$auth_user_id = mysqli_fetch_assoc($result_request_user_id);
 		$auth_user_id = $auth_user_id['id'];
 
-		record_cookie('user_id', $auth_user_id);
+		if (!isset($_SESSION['user_id'])) {
+			$_SESSION['user_id'] = $auth_user_id;
+		}
 
-		header("Location: http://doingsdone");
+		$url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
+		header("Location: ".$url);
 	}
 
 }
 
-$page_content = include_template('auth.php', ['form_errors' => $form_errors]);
+if (isset($_SESSION['user_id'])) {
+	$url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
+	header("Location: ".$url);
+} else {
+	$page_content = include_template('auth.php', ['form_errors' => $form_errors]);
+	$layout_content = include_template('layout.php', ['page_content' => $page_content, 'title' => 'Дела в порядке']);
+	print($layout_content);
+}
 
-$layout_content = include_template('layout.php', ['page_content' => $page_content, 'title' => 'Дела в порядке']);
 
-print($layout_content);
 
 ?>

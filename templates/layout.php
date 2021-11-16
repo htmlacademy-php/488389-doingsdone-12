@@ -20,12 +20,12 @@
             </a>
 
             <div class="main-header__side">
-            <?php if(isset($_SESSION)):?>
+            <?php if(isset($_SESSION['user_id'])):?>
                 <a class="main-header__side-item button button--plus open-modal" href="add_task.php">Добавить задачу</a>
 
                 <div class="main-header__side-item user-menu">
                     <div class="user-menu__data">
-                        <p><?php print($user_name);?></p>
+                        <p><?php print(htmlspecialchars($user_name));?></p>
                         <a href="logout.php">Выйти</a>
                     </div>
                 </div>

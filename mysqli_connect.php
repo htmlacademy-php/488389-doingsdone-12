@@ -9,9 +9,8 @@ if ($connection_resource == false) {
 
 if (isset($_SESSION['user_id'])) {
 
-	$user_id = $_SESSION['user_id'];  // если этот параметр поменять на двойку, то подгрузится вся инфа для второго пользователя из БД
-
 	// Получаю имя Юзера
+	$user_id = $_SESSION['user_id'];
 	$sql_request_user = "SELECT name, email FROM users WHERE id = ".$user_id;
 	$result_request_user = mysqli_query($connection_resource, $sql_request_user);
 	$user = mysqli_fetch_assoc($result_request_user);
@@ -26,17 +25,18 @@ if (isset($_SESSION['user_id'])) {
 
 	// Пометка проектов как выполненных
 	if (isset($_GET['check'])) {
-		$sql_request_task_status = "SELECT status FROM tasks WHERE id = ".$_GET['task_id'];
-
+		$task_id = intval($_GET['task_id']);
+		$check = intval($_GET['check']);
+		$sql_request_task_status = "SELECT status FROM tasks WHERE id = ".$task_id;
 		$sql_request_task_check = "UPDATE tasks 
-		SET status = ".'"'.$_GET['check'].'"'."
-		WHERE id = ".'"'.$_GET['task_id'].'"';
+		SET status = ".'"'.$check.'"'."
+		WHERE id = ".'"'.$task_id.'"';
 		$sql_result = mysqli_query($connection_resource, $sql_request_task_check);
 	}
 
 	// Получаю список задач
 	if (isset($_GET['task_search'])) {
-			$task_search = $_GET['task_search'];
+			$task_search = mysqli_real_escape_string($connection_resource, $_GET['task_search']);
 			$sql_request_tasks = "SELECT task_name, dt_deadline, status, projec_id, t.id, p.name 
 			FROM tasks t
 			JOIN projects p

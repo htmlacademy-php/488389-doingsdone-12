@@ -12,6 +12,8 @@ if (isset($_POST['send'])) {
 
 	if ($project_name === '') {
 		$form_errors['project_name'] = 'Поле не заполнено';
+	} else if (iconv_strlen($project_name) > 64) {
+		$form_errors['project_name'] = 'Длинна названия превышает максимально допустимую (64 символа)';
 	} else {
 		$sql_request_check_project_name = "SELECT name FROM projects 
 		WHERE name = '" . $project_name . "'
@@ -36,17 +38,21 @@ if (isset($_POST['send'])) {
 				$error = mysqli_error($connection_resource); 
 				print($error);
 			} else {
-				header("Location: http://doingsdone");
+				$url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
+				header("Location: ".$url);
 			}
 	}
 }
 
-$main_navigation = include_template('main-navigation.php', ['projects' => $projects, 'count_tasks' => $count_tasks]);
+if (isset($_SESSION['user_id'])) {
+	$main_navigation = include_template('main-navigation.php', ['projects' => $projects, 'count_tasks' => $count_tasks]);
+	$page_content = include_template('form_project.php', ['main_navigation' => $main_navigation, 'form_errors' => $form_errors, 'project_name' => $project_name]);
+	$layout_content = include_template('layout.php', ['page_content' => $page_content, 'title' => 'Дела в порядке', 'user_name' => $user_name]);
+	print($layout_content);
+} else {
+	$url = ((!empty($_SERVER['HTTPS'])) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
+	header("Location: ".$url);
+}
 
-$page_content = include_template('form_project.php', ['main_navigation' => $main_navigation, 'form_errors' => $form_errors, 'project_name' => $project_name]);
-
-$layout_content = include_template('layout.php', ['page_content' => $page_content, 'title' => 'Дела в порядке', 'user_name' => $user_name]);
-
-print($layout_content);
 
 ?>
